@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>AP. SISTEMA LOTO FÁCIL</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
+    h1 { color: #4caf50; }
+    textarea, select, input { width: 100%; padding: 10px; margin-bottom: 10px; }
+    button { padding: 10px 20px; margin: 5px 0; background: #4caf50; color: white; border: none; cursor: pointer; }
+    pre { background: #eee; padding: 10px; white-space: pre-wrap; border-radius: 5px; }
+    .secao { margin-bottom: 30px; }
+  </style>
+</head>
+<body>
+  <h1>AP. SISTEMA LOTO FÁCIL</h1>
+
+  <div class="secao">
+    <strong id="ultimoResultado">Último resultado: Carregando...</strong>
+    <textarea id="inputResultados" style="display:none;"></textarea>
+  </div>
+
+  <div class="secao">
+    <button onclick="avaliarPadroes()">Avaliar Padrões</button>
+    <pre id="resultadoPadroes"></pre>
+  </div>
+
+  <div class="secao">
+    <label for="qtdApostas">Quantidade de apostas:</label>
+    <select id="qtdApostas">
+      <option value="1">1</option>
+      <option value="3">3</option>
+      <option value="5">5</option>
+      <option value="10">10</option>
+    </select>
+    <button id="btnGerarSugestoes" onclick="gerarApostas()" disabled>Gerar Apostas</button>
+    <pre id="apostasGeradas"></pre>
+  </div>
+
+  <div class="secao">
+    <label for="resultadoOficial">Resultado oficial (15 dezenas):</label>
+    <input id="resultadoOficial" placeholder="Ex: 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15">
+    <button onclick="analisarAcertos()">Analisar Acertos</button>
+    <pre id="resultadoAcertos"></pre>
+  </div>
+
+  <script src="sistema.js"></script>
+  <script>
+    fetch('resultados.txt')
+      .then(res => res.text())
+      .then(texto => {
+        document.getElementById('inputResultados').value = texto.trim();
+        carregarHistorico(); // chamada correta após carregar os dados
+      })
+      .catch(err => {
+        console.error("Erro ao carregar resultados.txt", err);
+        document.getElementById("ultimoResultado").textContent = "Erro ao carregar resultados.";
+      });
+  </script>
+</body>
+</html>
